@@ -1,0 +1,16 @@
+extends ./layout/app
+
+block contenido
+  section(class="py-10 flex flex-1 flex-col container") 
+    h1(class="text-4xl font-bold text-center tracking-tighter capitalize")= pagina  
+      span : 
+      span(class="text-indigo-500")= busqueda
+
+    if propiedades.length  
+      ul(class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 mt-10") 
+        each propiedad in propiedades
+          include ./template/card
+
+    else
+      div(class="w-full h-full flex-1 flex justify-center items-center")
+        p(class="font-semibold") No hay publicaciones disponibles

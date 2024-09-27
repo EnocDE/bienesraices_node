@@ -1,0 +1,41 @@
+//- Indicamos de que layout utilizará
+extends ../layout/index
+
+//- Y en que bloque del layout se agregara el contenido
+block contenido
+  div(class="min-h-screen grid place-items-center p-5")
+      div(class="bg-white w-full md:max-w-5xl mx-auto shadow")
+        div(class="grid md:grid-cols-2 gap-10 md:gap-5")
+          picture(class="max-h-72 md:max-h-none md:h-[700px] md:w-full overflow-clip")
+            source(srcset="/img/login-image.webp" type="image/webp")
+            source(srcset="/img/login-image.png" type="image/jpg")
+            img(class="object-cover object-center w-full h-full" src="/img/login-image.png", alt="White Build Image")
+
+          form(class="flex flex-col justify-center space-y-5 px-5 pb-10 py-0 md:pl-0 md:pb-0" method="POST" action="/auth/login")
+            h1(class="text-4xl font-extrabold text-center") Bienes
+              span(class="font-normal") Raices
+            h2(class="text-center text-2xl font-bold tracking-tighter")= pagina
+            if msg
+              p(class=`${error ? "bg-red-500" : "bg-green-500"} rounded p-2 text-center text-white font-semibold`)= msg
+            div
+              label(class="block text-md mb-2 font-semibold" for="correo") Correo
+              input#correo(class="w-full px-3 py-2 border border-gray-200 rounded" placeholder="Ingresa tu email" type="email" name="correo" value=`${correo ? correo : ""}`)
+              if errores
+                each error in errores 
+                  if error.path === "correo"
+                    p(class="text-red-400 font-semibold before:content-['*']")= error.msg
+
+            div
+              label(class="block text-md mb-2 font-semibold" for="clave") Contraseña
+              input#clave(class="w-full px-3 py-2 border border-gray-200 rounded" placeholder="Ingresa tu contraseña" type="password" name="clave")
+              if errores
+                each error in errores 
+                  if error.path === "clave"
+                    p(class="text-red-400 font-semibold before:content-['*']")= error.msg
+
+            div
+            input(type="hidden" name="_csrf" value=csrfToken)
+            button(class="full-btn bg-neutral-800 hover:bg-neutral-900 text-white") Ingresar
+            div(class="space-y-3")
+              a(class="text-xs text-center block text-neutral-500" href="/auth/registro") ¿No tienes cuenta? Registrate
+              a(class="text-xs text-center block text-neutral-500" href="/auth/olvide-password") ¿Olvidaste tu contraseña? Restablecela

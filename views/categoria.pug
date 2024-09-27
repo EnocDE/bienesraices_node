@@ -1,0 +1,16 @@
+extends ./layout/app
+
+block contenido
+  section(class="container mx-auto py-10 flex-1 flex flex-col")
+    h1(class="text-4xl font-bold tracking-tighter text-center text-indigo-500")= pagina
+      span(class="text-neutral-800")  en venta 
+
+
+    if propiedades.length  
+      ul(class="grid gap-5 md:grid-cols-2 lg:grid-cols-3 mt-10") 
+        each propiedad in propiedades
+          include ./template/card
+
+    else
+      div(class="w-full h-full flex-1 flex justify-center items-center")
+        p(class="font-semibold") No hay publicaciones disponibles

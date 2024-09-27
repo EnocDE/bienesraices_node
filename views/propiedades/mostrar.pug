@@ -1,0 +1,79 @@
+extends ../layout/app
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="")
+block contenido
+  section(class="container mb-5 space-y-5")
+    div 
+      h2(class="py-10 text-4xl font-bold text-center text-indigo-500 tracking-tighter")= pagina
+
+      div(class="")
+        a(class="font-bold text-xs text-gray-800" href="#") Categoria: 
+          span(class="font-semibold text-indigo-600")= propiedad.categoria.nombre
+
+      div(class="mt-5 grid gap-5 lg:grid-cols-3")
+        div(class="lg:col-span-2 bg-white rounded-lg overflow-hidden shadow-md")
+          img(src=`/uploads/${propiedad.imagen}`, alt=`${propiedad.nombre}`)
+          div(class="p-5 space-y-5") 
+            p(class="whitespace-pre-line text-pretty")= propiedad.descripcion
+            h3(class="font-bold leading-6 text-2xl") Información de la propiedad
+
+            div(class="grid lg:grid-cols-2 gap-3")
+              p(class="font-semibold text-xs text-gray-600") Habitaciones
+                span(class="font-bold block text-lg text-gray-800")= propiedad.habitaciones
+              p(class="font-semibold text-xs text-gray-600") Baños
+                span(class="font-bold block text-lg text-gray-800")= propiedad.wc
+              p(class="font-semibold text-xs text-gray-600") Estacionamientos
+                span(class="font-bold block text-lg text-gray-800")= propiedad.estacionamientos
+              p(class="font-semibold text-xs text-gray-600") Precio
+                span(class="font-bold block text-lg text-gray-800")= propiedad.precio.nombre
+
+        div(class="p-5 bg-white rounded-lg shadow-md h-fit w-full")
+          div
+            h3(class="font-bold text-2xl text-gray-800") Ubicación
+          div#mapa(class="aspect-video lg:aspect-square mt-5")
+          p#lat(class="hidden")= propiedad.lat
+          p#lng(class="hidden")= propiedad.lng
+          p(class="font-bold text-xs text-gray-600 mt-4") Dirección 
+            span#calle(class=" text-lg text-gray-800 block")= propiedad.calle
+
+          if !vendedor
+            div(class="mt-5") 
+              h3(class="text-2xl font-bold mb-2") Vendedor
+
+              if enviado 
+                p(class="p-2 text-center bg-green-200 text-green-500 font-bold") Mensaje enviado correctamente
+              else if !usuario 
+                p(class="") Si deseas contactar al vendedor 
+                  a(class="text-indigo-500" href="/auth/crear-cuenta") debes crear una cuenta 
+              else 
+                form(method="POST") 
+                  label(for="mensaje" class="font-semibold text-gray-600") Escribe un mensaje al vendedor
+                  textarea#mensaje(class="border w-full p-1 resize-none mb-2" name="mensaje" rows="5" maxlength="200")= mensaje
+                  input(type="hidden" name="_csrf" value=csrfToken)
+                  if errores
+                    div(class="pb-3")
+                      each error in errores
+                        if error.path === "mensaje" 
+                          p(class="text-red-400 font-semibold before:content-['*']")= error.msg
+                  input(class="w-full py-3 rounded cursor-pointer font-bold bg-blackligth text-white transition-base hover:bg-neutral-900" type="submit" value="Eviar mensaje")
+
+    if propiedades.length    
+      section(class="bg-white p-5 shadow rounded-lg") 
+        div(class="overflow-hidden space-y-5") 
+          h3(class="text-2xl font-bold text-gray-800") Propiedades similares
+          div(class="flex gap-5 flex-nowrap overflow-x-scroll snap-x snap-mandatory [scrollbar-width:none] md:[scrollbar-width:auto]")
+            each propiedad in propiedades
+              div(class="flex-none max-w-sm w-full rounded-lg overflow-hidden border snap-center relative")
+                a(href=`/propiedad/${propiedad.id}`) 
+                  div(class="aspect-video overflow-hidden relative after:absolute after:block after:inset-0 after:bg-[linear-gradient(to_top,#00000080,transparent)]")
+                    img(class="w-full h-auto object-cover" src=`/uploads/${propiedad.imagen}` alt=`${propiedad.nombre}`)
+                  h4(class="line-clamp-1 font-bold text-lg text-white absolute bottom-2 left-2")= propiedad.nombre 
+
+
+    //- pre(class="text-wrap")= JSON.stringify(propiedad, null, 2)
+    //- pre(class="text-wrap")= JSON.stringify(propiedades, null, 2)
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="/js/mostrarMapa.js")

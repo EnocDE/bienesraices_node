@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .short-btn {
+    @apply block md:w-fit text-center transition font-semibold py-2 px-10 rounded
+  }
+  .full-btn {
+    @apply w-full transition py-2 font-bold rounded
+  }
+  .transition-base {
+    @apply transition duration-300
+  }
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: #393e41;
+  background-color: #f9fafb;
+  overflow-x: hidden;
+}

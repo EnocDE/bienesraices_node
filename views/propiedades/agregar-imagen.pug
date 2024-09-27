@@ -1,0 +1,27 @@
+extends ../layout/admin
+
+block styles
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css")
+  meta(name="csrf-token" content= csrfToken)
+
+block contenido 
+  div(class="flex-1 flex items-center p-5")
+          div(class="mx-auto w-full")
+            h2(class="text-center text-4xl py-5 font-bold tracking-tighter")= pagina
+
+            div(class="p-5 bg-white max-w-2xl mx-auto flex-1 rounded shadow space-y-5")
+              div
+                h3(class="font-semibold text-xl") Imagen de la propiedad
+                p(class="") Añade la imagen de la propiedad en venta
+              form#image(class="dropzone image border-2 border-dashed rounded min-h-52 flex flex-col justify-center items-center" action=`/propiedades/agregar-imagen/${propiedad.id}` method="POST")                
+
+              //- if errores
+              //-   each error in errores
+              //-     if error.path === "title"
+              //-       p(class="text-red-400 font-semibold before:content-['*']")= error.msg
+
+              //- input(type="hidden" name="_csrf" value=csrfToken)
+              button#publicar(class="full-btn bg-indigo-500 hover:bg-indigo-600 text-white" type="button") Publicar propiedad
+
+block scripts
+  script(src="/js/dropzone.js") 

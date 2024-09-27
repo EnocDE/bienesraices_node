@@ -1,0 +1,7 @@
+extends ./layout/app
+
+block contenido
+  section(class="flex-1 flex justify-center items-center flex-col space-y-5") 
+      h1(class="text-6xl font-bold")= pagina 
+      p(class=" text-lg") Lo sentimos, la página que buscas no existe o no esta disponible.
+      a(class="rounded border py-3 px-10 shadow-sm w-fit block transition-base hover:bg-blackligth hover:text-white font-bold text-neutral-800" href="/") Volver al inicio 

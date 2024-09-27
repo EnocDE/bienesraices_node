@@ -1,0 +1,50 @@
+extends layout/app
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="")
+block contenido
+
+  section(class="pt-10") 
+    h1(class="text-center text-4xl font-extrabold mb-10 capitalize tracking-tight")
+      span(class="text-indigo-500") propiedades 
+      |  en el mapa
+    if categorias && precios
+      div(class="px-5 mx-auto max-w-xl")
+        h2(class="font-bold mb-3 text-neutral-700") Filtrar propiedades:
+        div(class="mb-5 flex flex-col md:flex-row gap-3 md:gap-10")
+          div(class="flex items-center gap-2")
+            label(class="text-neutral-500 font-semibold" for="categoria") Categoria
+            select#categoria(class="py-2 px-5 border w-full md:w-fit rounded" name="categoria")
+              option(value="" disabled selected) Selecciona 
+              each categoria in categorias  
+                option(value= categoria.id)= categoria.nombre
+          div(class="flex items-center gap-2") 
+            label(class="text-neutral-500 font-semibold" for="precio") Precio
+            select#precio(class="py-2 px-5 border w-full md:w-fit rounded" name="precio")
+              option(value="" disabled selected) Selecciona 
+              each precio in precios  
+                option(value= precio.id)= precio.nombre
+    div#mapa-inicio(class="w-full h-[400px] md:h-[600px] shadow-lg mb-10 [mask-image:linear-gradient(to_top,transparent,black,black,black,black)]")
+
+  if casas 
+    section(class="py-10 container mx-auto")
+      h2(class="text-4xl font-bold mb-10 capitalize tracking-tighter") Últimas 
+        span(class="text-indigo-500") casas
+        |  publicadas
+      ul(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6")
+        each propiedad in casas 
+          include ./template/card
+
+  if departamentos 
+    section(class="py-10 container mx-auto")
+      h2(class="text-4xl font-bold mb-10 capitalize tracking-tighter") Últimos 
+        span(class="text-indigo-500") departamentos
+        |  publicados
+      ul(class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6")
+        each propiedad in departamentos 
+          include ./template/card
+
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="/js/mapaInicio.js")

@@ -1,0 +1,27 @@
+extends ../layout/admin
+
+block contenido 
+  section(class="py-10 container flex flex-1 flex-col") 
+    h2(class="text-center text-4xl font-bold pb-10 tracking-tighter")= pagina 
+      |  para 
+      span(class="text-indigo-500")= propiedadTitulo
+    div 
+      a(class="full-btn md:short-btn text-center my-5 bg-red-500 transition-base hover:bg-red-600 text-white font-bold inline-block" href="/mis-propiedades") Volver 
+
+    if mensajes.length
+      ul(class="space-y-2")
+        each mensaje in mensajes
+          li(class="shadow p-5 bg-white")
+            p(class="font-bold text-gray-800") Nombre: 
+              span(class="font-normal text-neutral-800")= mensaje.usuario.nombre
+            p(class="font-bold text-gray-800") Email: 
+              span(class="font-normal text-neutral-800")= mensaje.usuario.correo
+            p(class="font-bold text-gray-800") Mensaje: 
+              span(class="font-normal text-neutral-800")= mensaje.mensaje
+            p(class="font-bold text-gray-800") Enviado: 
+              span(class="font-normal text-neutral-800")= formatearFecha(mensaje.createdAt)
+    else 
+      div(class="flex-1 flex justify-center items-center")
+        p(class="font-semibold") No hay 
+          span(class="text-indigo-500") mensajes
+    //- pre= JSON.stringify(mensajes, null, 2)
